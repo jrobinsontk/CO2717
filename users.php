@@ -5,9 +5,9 @@
 	</head>
 	<body>
 <?php
-include 'connect.php ';
+include 'connect.php';
 
-$sql = "SELECT ID, firstname, surname, email FROM users";
+$sql = "SELECT ID, firstname, lastname, email FROM users";
 $result = $mysqli->query ($sql);
 if ($result)
 {
@@ -17,7 +17,7 @@ if ($result)
         echo "<tr>";
         echo "<th>ID</th>";
         echo "<th>Firstname</th>";
-        echo "<th>Surname</th>";
+        echo "<th>lastname</th>";
         echo "<th>Email</th>";
         echo "</tr>";
         while($row = $result->fetch_assoc()) 
@@ -26,7 +26,7 @@ if ($result)
             echo "<tr>";
             echo "<td>".$row['ID']."</td>";
             echo "<td>".$row['firstname']."</td>";
-            echo "<td>".$row['surname']."</td>";
+            echo "<td>".$row['lastname']."</td>";
             echo "<td>".$row['email']."</td>";
             echo "</tr>";
         }
