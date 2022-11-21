@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<head>
+    <title>jQuery banner test</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script>$(document).ready(function(){
+    $("#addto").click(function(){
+    var newItem = ""+$("#inputbox").val()+"";
+        $("#mylist").append(newItem);
+    });
+    $("#clearlist").click(function(){
+        $("#mylist").empty();
+    });
+});</script>
+</head>
+<body>
+	<h1>Add things to a list</h1>
+<input type="textbox" id="inputbox"/>
+<button id="addto">Click to add</button>
+<button id="clearlist">Click to clear list</button>
+<ul id="mylist">
+</body>
+</html>
