@@ -1,48 +1,68 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Edit</title>
+<meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Edit</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
 </head>
 <body>
+	<!-- Responsive navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="Home.php">Oakwood</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="home.php">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="upload.php">Admin</a></li>
+                        <li class="nav-item"><a class="nav-link" href="login.php">Log in</a></li>
+
+                    </ul>
+                </div>
+            </div>
+            </nav>
+            <!-- Page content-->
 <?php
 // Check to see if the server has recieved a POST request
-if ($_SERVER['REQUEST_METHOD'] == 'POST')
-{
+if($_SERVER["REQUEST_METHOD"] == "POST"){
 // Include the connection script
-	include 'connect.php';
+	include 'config.php';
 
     // Copy the GET and POST data to variables
     $id = $_GET['id'];
-    $fn = $_POST['forname'];
-    $sn = $_POST['lastname'];
-    $rl = $_POST['role'];
-    $ex = $_POST['ext'];
+    $un = $_POST['username'];
     // Write, prepare, and bind the UPDATE query
-	$updatequery ="UPDATE users SET forname=?, lastname=?, role=?, ext=? WHERE ID=?";
-    $stmt = $mysqli->prepare($updatequery);
-    $stmt->bind_param('sssss', $fn, $ln, $rl, $ex, $id );
+	$updatequery ="UPDATE users SET username=? WHERE ID=?";
+    $stmt = $link->prepare($updatequery);
+    $stmt->bind_param('ss', $un, $id );
 	
     // Execute the prepared statement
     if (!$stmt->execute()) 
     {
-        echo "Error: ".$mysqli->error;
+        echo "Error: ".$link->error;
     }
     else 
     {
         echo "<p>Record updated successfully</p>";
-        echo "<a href=\"display.php\">display</a>";
+        echo "<a href=\"upload.php\">display</a>";
     } 
-    $mysqli->close();
+    $link->close();
 }
 else
 // Else the record has not been edited yet so we need to present the user with the current record
 {
     // Include the connection script
-	include 'connect.php';
+	include 'config.php';
     
     // Write, prepare, and bind the SELECT query
-    $selectequery = "SELECT * from users WHERE ID=?";
-    $stmt = $mysqli->prepare($selectquery);
+    $selectquery = "SELECT * from users WHERE ID=?";
+    $stmt = $link->prepare($selectquery);
     $stmt->bind_param('s', $_GET['id']);
     // Execute the prepared statement
     $stmt->execute();
@@ -51,29 +71,23 @@ else
     // Copy the record id from GET to a variable
     $id = $_GET['id'];
     // Copy the retreived row data to variables
-    $fn = $user['forname'];
-    $sn = $user['lastname'];
-    $rl = $user['email'];
-    $ex = $user['ext']
+    $un = $user['username'];
+    
 ?>
-	<h1>Edit record:</h1>
-    <!-- Please notice that the primary key is being added to the URL once again within the action, this is vital -->
-    <!-- Also please notice that the retrieved record values are being output within the value attribute of the input fields -->
+<div class="wrapper">
+	<h1>Edit Username:</h1>
+    <!-- pulls the id of the user from the URL-->
     <form action="edit.php?id=<?php $id; ?>" method="POST" >
-        <label for="fname">Forname: </label>
-        <input  type="text" id="fname" name="fname" value="<?php echo $fn; ?>"/><br>
-        <label for="sname">Surname: </label>
-        <input  type="text" id="sname" name="sname" value="<?php echo $sn; ?>"/><br>
-        <label for="role">Role: </label>
-        <input  type="text" id="role" name="role" value="<?php echo $rl; ?>"/><br>
-        <label for="ext">Ext: </label>
-        <input  type="password" id="ext" name="ext" value="<?php echo $ex; ?>"/><br>
+        <label for="username">username: </label>
+        <input  type="text" id="username" name="username" value="<?php echo $un; ?>"/><br>
+        <br>
         <label for="submit">Submit: </label>
-        <input type="submit" id="submit" name="submit" value="submit"/>
+        <input type="submit" id="submit" class="btn btn-primary"  name="submit" value="submit"/>
     </form>	
 </div>
-</body>
-</html>
 <?php  
 }
 ?>
+</body>
+</html>
+
